@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sort Software Engineers by Age</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      button {
+        padding: 10px;
+        margin: 5px;
+        width: 100px;
+      }
+      #result {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sort Software Engineers by Age</h1>
+    <button onclick="sortEngineers()">Sort</button>
+    <div id="result"></div>
+
+    <script>
+ 
+      const engineers = [
+        { name: 'Brian', role: 'Systems Engineer', age: 21 },
+        { name: 'David', role: 'IOT', age: 19 },
+        { name: 'John', role: 'Cyber Security', age: 20 },
+        { name: 'Tony', role: 'Web Dev', age: 18 }
+      ];
+
+      function mergeSort(arr) {
+        if(arr.length < 2){
+          return arr;
+        }
+
+        let middle = Math.floor(arr.length / 2);
+        let left = arr.slice(0, middle);
+        let right = arr.slice(middle);
+
+
+        return merge(mergeSort(left), mergeSort(right));
+      }
+
+      function merge(left, right){
+        let result = [];
+        let leftIndex = 0;
+        let rightIndex = 0;
+
+        while(leftIndex < left.length && rightIndex < right.length){
+
+          if(left[leftIndex].age < right[rightIndex].age){
+            result.push(left[leftIndex]);
+            leftIndex++
+
+          }else{
+            result.push(right[rightIndex])
+            rightIndex++
+          }
+        }
+
+        return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+      }
+
+      function sortEngineers() {
+        const sortedArray = mergeSort(engineers);
+        let result = '<h2>Sorted Engineers</h2><ul>';
+        sortedArray.forEach(engineer => {
+          result += `<li>${engineer.name}, ${engineer.role}, Age: ${engineer.age}</li>`;
+        });
+        result += '</ul>';
+        document.getElementById('result').innerHTML = result;
+      }
+
+      let result = '<h2>Unsorted Engineers</h2><ul>';
+      engineers.forEach(engineer => {
+        result += `<li>${engineer.name}, ${engineer.role}, Age: ${engineer.age}</li>`
+      });
+      result += '</ul>';
+      document.getElementById('result').innerHTML = result;
+
+    </script>
+  </body>
+</html>
